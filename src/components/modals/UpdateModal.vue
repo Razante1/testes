@@ -56,6 +56,7 @@ const fields = computed(() => {
     return [
       { key: 'name', label: 'Nome', type: 'text' },
       { key: 'role', label: 'Cargo', type: 'text' },
+      { key: 'images', label: 'Fotos do Membro', type: 'image-list' },
     ]
   } 
   if (section.value === 'projects') {
@@ -63,6 +64,7 @@ const fields = computed(() => {
       { key: 'name', label: 'Nome do Projeto', type: 'text' },
       { key: 'description', label: 'Descrição', type: 'textarea' },
       { key: 'technologies', label: 'Tecnologias', type: 'tags' },
+      { key: 'images', label: 'Galeria do Projeto', type: 'image-list' },
     ]
   }
   if (section.value === 'events') {
@@ -71,6 +73,7 @@ const fields = computed(() => {
       { key: 'date', label: 'Data do Evento', type: 'date' },
       { key: 'location', label: 'Localização', type: 'text' },
       { key: 'description', label: 'Detalhes', type: 'textarea' },
+      { key: 'images', label: 'Fotos do Evento', type: 'image-list' },
     ]
   }
   return []

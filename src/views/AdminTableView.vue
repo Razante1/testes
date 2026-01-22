@@ -9,8 +9,8 @@ import { ProjectService } from '../service/projectService'
 import { EventService } from '../service/eventService'     
 
 import { MemberDTO, MemberFull } from '../models/Member'
-// Importe aqui os outros DTOs/FullModels quando criá-los
-
+import { EventDTO,EventFull } from '../models/Events'
+import { ProjectDTO,ProjectFull } from '../models/Project'
 // Componentes
 import DataTable from '@/components/table/DataTable.vue'
 import CreateModal from '@/components/modals/CreateModal.vue'
@@ -29,11 +29,11 @@ const resources = {
   },
   projects: { 
     service: ProjectService, 
-    mappers: { ListDTO: null, FullModel: null } // Atualize aqui quando criar os models de projeto
+    mappers: { ListDTO: ProjectDTO, FullModel: ProjectFull } // Atualize aqui quando criar os models de projeto
   },
   events: { 
     service: EventService, 
-    mappers: { ListDTO: null, FullModel: null } 
+    mappers: { ListDTO: EventDTO, FullModel: EventFull } 
   }
 }
 
@@ -67,6 +67,7 @@ const showCreate = ref(false)
 const showUpdate = ref(false)
 const showDelete = ref(false)
 const showView = ref(false)
+const search = ref('')
 
 // 🔹 Ações da Tabela
 async function onEdit(itemDTO) {
@@ -107,77 +108,89 @@ async function handleConfirmDelete() {
 </script>
 
 <template>
-  <div class="pa-6 position-relative">
-    <div class="admin-main">
-        <div class="action-bar d-flex align-center pa-4 bg-white border-bottom">
-          
-          <v-text-field
-            v-model="search"
-            prepend-inner-icon="mdi-magnify"
-            label="Pesquisar..."
-            variant="outlined"
-            density="compact"
-            hide-details
-            class="search-input mr-4"
-            bg-color="#f8fafc"
-          ></v-text-field>
+  <v-container v-if="!section" fluid class="pa-8 bg-slate-50 fill-height align-start">
+    <v-row>
+      <v-col cols="12">
+        <h1 class="text-h4 font-weight-bold text-slate-800 mb-6">Painel Administrativo</h1>
+      </v-col>
+      
+      <v-col cols="12" md="4">
+        <v-card @click="$router.push('/admin/members')" hover class="pa-6 border-t-4 border-primary rounded-xl" elevation="2">
+          <v-icon size="40" color="primary" class="mb-4">mdi-account-group</v-icon>
+          <div class="text-h6 font-weight-bold">Membros</div>
+          <div class="text-body-2 text-grey">Gerencie a equipe e permissões.</div>
+        </v-card>
+      </v-col>
 
-          <v-spacer></v-spacer>
+      <v-col cols="12" md="4">
+        <v-card @click="$router.push('/admin/projects')" hover class="pa-6 border-t-4 border-success rounded-xl" elevation="2">
+          <v-icon size="40" color="success" class="mb-4">mdi-rocket-launch</v-icon>
+          <div class="text-h6 font-weight-bold">Projetos</div>
+          <div class="text-body-2 text-grey">Acompanhe entregas e tecnologias.</div>
+        </v-card>
+      </v-col>
 
-          <v-btn
-            color="primary"
-            prepend-icon="mdi-plus"
-            elevation="0"
-            height="40"
-            @click="showCreate = true"
-          >
-            Novo Registro
-          </v-btn>
-        </div>
+      <v-col cols="12" md="4">
+        <v-card @click="$router.push('/admin/events')" hover class="pa-6 border-t-4 border-info rounded-xl" elevation="2">
+          <v-icon size="40" color="info" class="mb-4">mdi-calendar-check</v-icon>
+          <div class="text-h6 font-weight-bold">Eventos</div>
+          <div class="text-body-2 text-grey">Organize workshops e sprints.</div>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 
-        <div class="admin-container">
-          <DataTable
-            :key="section" 
-            :items="items"
-            :search="search"
-            height="calc(100vh - 200px)" 
-            fixed-header
-            @edit="onEdit"
-            @delete="onDelete"
-            @view="onView"
-          />
-        </div>
-      </div>
+  <div v-else class="admin-main">
+    <div class="action-bar d-flex align-center pa-4 bg-white">
+      <v-text-field
+        v-model="search"
+        prepend-inner-icon="mdi-magnify"
+        label="Pesquisar..."
+        variant="outlined"
+        density="compact"
+        hide-details
+        class="search-input mr-4"
+        bg-color="#f8fafc"
+      ></v-text-field>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        color="primary"
+        prepend-icon="mdi-plus"
+        elevation="0"
+        @click="showCreate = true"
+      >
+        Novo {{ section }}
+      </v-btn>
+    </div>
+
+    <div class="admin-container">
+      <DataTable
+        :key="section" 
+        :items="items"
+        :search="search"
+        height="calc(100vh - 160px)" 
+        fixed-header
+        @edit="onEdit"
+        @delete="onDelete"
+        @view="onView"
+      />
+    </div>
   </div>
 
-  <CreateModal 
-    v-if="showCreate" 
-    v-model="showCreate" 
-    @save="handleCreate" 
-  />
-  
-  <UpdateModal 
-    v-if="showUpdate" 
-    v-model="showUpdate" 
-    :data="selected" 
-    @save="handleUpdate" 
-  />
-  
-  <DeleteModal 
-    v-if="showDelete" 
-    v-model="showDelete" 
-    :data="selected" 
-    @confirm="handleConfirmDelete" 
-  />
-  
-  <ViewModal 
-    v-if="showView" 
-    v-model="showView" 
-    :data="selected" 
-  />
+  <CreateModal v-if="showCreate" v-model="showCreate" @save="handleCreate" />
+  <UpdateModal v-if="showUpdate" v-model="showUpdate" :data="selected" @save="handleUpdate" />
+  <DeleteModal v-if="showDelete" v-model="showDelete" :data="selected" @confirm="handleConfirmDelete" />
+  <ViewModal v-if="showView" v-model="showView" :data="selected" />
 </template>
-
 <style scoped>
+.button-registro {
+  background-color: rgb(214, 214, 214);
+}
+.button-registro:hover {
+  background-color: rgb(151, 151, 151);
+}
 .action-bar {
   border-bottom: 1px solid #e2e8f0;
   min-height: 72px;

@@ -15,26 +15,32 @@ const form = ref({})
 // 🔹 ESSENCIAL: Observar a abertura do modal para limpar/preparar o formulário
 watch(() => props.modelValue, (isOpen) => {
   if (isOpen) {
-    // Inicializa o formulário com chaves vazias baseadas nos campos
     const initialForm = {}
     fields.value.forEach(field => {
-      initialForm[field.key] = field.type === 'tags' ? [] : ''
+      if (field.key === 'status') {
+        initialForm[field.key] = 'active' // Valor padrão do seu mock
+      } else {
+        initialForm[field.key] = field.type === 'tags' ? [] : ''
+      }
     })
     form.value = initialForm
   }
 })
 
 const fields = computed(() => {
-  if (section.value === 'members') {
+if (section.value === 'members') {
     return [
       { key: 'name', label: 'Nome', type: 'text' },
       { key: 'role', label: 'Cargo', type: 'text' },
-      { key: 'images', label: 'Fotos do Membro', type: 'image-list' },
+      { key: 'email', label: 'E-mail', type: 'text' },
+      { key: 'status', label: 'Membro Ativo?', type: 'status-trigger' }, // 🔹 Novo tipo
+      { key: 'avatar', label: 'Foto do Perfil (URL)', type: 'text' },
     ]
   } 
   if (section.value === 'projects') {
     return [
       { key: 'name', label: 'Nome do Projeto', type: 'text' },
+      { key: 'status', label: 'Projeto Ativo?', type: 'status-trigger' }, // 🔹 Novo tipo
       { key: 'description', label: 'Descrição', type: 'textarea' },
       { key: 'technologies', label: 'Tecnologias', type: 'tags' },
       { key: 'images', label: 'Galeria do Projeto', type: 'image-list' },
@@ -69,17 +75,24 @@ function submit() {
         <v-row>
           <v-col v-for="field in fields" :key="field.key" cols="12">
             
+            <v-select
+              v-if="field.type === 'status-trigger'"
+              v-model="form[field.key]"
+              :label="field.label"
+              :items="[
+                { title: 'Ativo', value: 'active' },
+                { title: 'Inativo', value: 'inactive' }
+              ]"
+              variant="outlined"
+              density="comfortable"
+            />
+
             <v-file-input
-              v-if="field.type === 'image-list'"
+              v-else-if="field.type === 'image-list'"
               v-model="form[field.key]"
               :label="field.label"
               multiple
-              chips
-              closable-chips
-              prepend-inner-icon="mdi-camera"
-              prepend-icon=""
               variant="outlined"
-              accept="image/*"
               density="comfortable"
             />
 
@@ -90,7 +103,6 @@ function submit() {
               type="date"
               variant="outlined"
               density="comfortable"
-              persistent-placeholder
             />
 
             <component
@@ -100,7 +112,6 @@ function submit() {
               :label="field.label"
               :multiple="field.type === 'tags'"
               :chips="field.type === 'tags'"
-              :closable-chips="field.type === 'tags'"
               variant="outlined"
               density="comfortable"
               hide-details="auto"

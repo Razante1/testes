@@ -1,21 +1,25 @@
-// models/MemberDTO.js (Para a DataTable - LEVE)
+// DTO para a Lista (DataTable)
+// Selecionamos apenas os campos essenciais para não sobrecarregar a tabela
 export class MemberDTO {
   constructor(obj) {
     this.id = obj.id
     this.name = obj.name
     this.role = obj.role
+    this.status = obj.status
   }
 }
 
-// models/MemberFull.js (Para Modais - COMPLETO)
+// FullModel para Detalhes (Modais de Visualização e Edição)
+// Contém 100% das propriedades do seu mockData
 export class MemberFull {
   constructor(obj) {
     this.id = obj.id
     this.name = obj.name
     this.role = obj.role
-    this.bio = obj.bio
     this.email = obj.email
     this.avatar = obj.avatar
-    this.createdAt = new Date(obj.created_at).toLocaleDateString('pt-BR')
+    this.status = obj.status
+    this.skills = obj.skills || [] // Array de strings do mock
+    this.joinedAt = obj.joinedAt
   }
 }

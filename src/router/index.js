@@ -4,14 +4,22 @@ import AdminLayout from '@/components/layout/AdminLayout.vue'
 import AdminTableView from '@/views/AdminTableView.vue'
 
 const routes = [
+  { path: "/", redirect: "/admin" },
+
   {
     path: '/admin',
     component: AdminLayout,
     children: [
       {
-        path: ':section',
-        name: 'admin-section',
+        path: '', 
+        name: 'admin-home',
         component: AdminTableView
+      },
+      {
+        path: ':section', 
+        name: 'admin-section',
+        component: AdminTableView,
+        props: true
       }
     ]
   }

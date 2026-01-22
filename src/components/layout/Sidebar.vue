@@ -7,7 +7,8 @@ const drawer = ref(true)
 const items = [
   { title: 'Membros', route: '/admin/members', icon: 'mdi-account-group' },
   { title: 'Projetos', route: '/admin/projects', icon: 'mdi-folder-multiple' },
-  { title: 'Eventos', route: '/admin/events', icon: 'mdi-calendar-multiple' }
+  { title: 'Eventos', route: '/admin/events', icon: 'mdi-calendar-multiple' },
+  { title: 'Dados', route: '/admin/dados', icon: 'mdi-database' }
 ]
 </script>
 
@@ -25,7 +26,8 @@ const items = [
     <div class="sidebar-header" :class="{ 'px-2 justify-center': rail, 'px-4 justify-space-between': !rail }">
       
       <div v-if="!rail" class="d-flex align-center overflow-hidden">
-        <img src="/luigi.webp" alt="Logo" class="sidebar-logo">
+        <img src="/camed.png" alt="Logo" class="sidebar-logo">
+        <div class="ma-2">Admin Núcleo</div>
       </div>
 
       <v-btn
@@ -58,6 +60,8 @@ const items = [
   border-right: 1px solid #e5e7eb !important;
   /* Garante que a fonte Poppins seja aplicada aqui também */
   font-family: 'Poppins', sans-serif !important;
+  background-color: rgb(32, 32, 32);
+  color: white;
 }
 
 .sidebar-header {
@@ -75,10 +79,16 @@ const items = [
   transition: opacity 0.2s ease;
   align-self: center;
 }
+:deep(.v-list-item) {
+  background-color: rgba(128, 128, 128, 0);
+}
+:deep(.v-list-item):hover {
+  background-color: rgb(66, 66, 66);
+}
 
 :deep(.v-list-item--active) {
-  background-color: #eef2ff !important;
-  color: #4338ca !important;
+  background-color: #ffffff28 !important;
+  color: #181818 !important;
 }
 
 /* Ajuste para que o texto dos itens da lista também use Poppins */

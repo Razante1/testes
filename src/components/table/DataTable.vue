@@ -10,7 +10,6 @@ const props = defineProps({
   density: { type: String, default: 'comfortable' }
 })
 
-// ❌ REMOVI: const search = ref('') -> Pois usaremos a prop search
 
 const headers = computed(() => {
   if (!Array.isArray(props.items) || props.items.length === 0) return []
@@ -50,9 +49,9 @@ const headers = computed(() => {
   >
     <template #item.actions="{ item }">
       <div class="actions-wrapper">
-        <v-btn icon="mdi-eye" variant="text" size="small" color="info" @click="$emit('view', item)" />
-        <v-btn icon="mdi-pencil" variant="text" size="small" color="warning" @click="$emit('edit', item)" />
-        <v-btn icon="mdi-delete" variant="text" size="small" color="error" @click="$emit('delete', item)" />
+        <v-btn icon="mdi-eye" variant="text" size="small"  @click="$emit('view', item)" />
+        <v-btn icon="mdi-pencil" variant="text" size="small" @click="$emit('edit', item)" />
+        <v-btn icon="mdi-delete" variant="text" size="small"  @click="$emit('delete', item)" />
       </div>
     </template>
 
@@ -61,11 +60,16 @@ const headers = computed(() => {
         Nenhum registro encontrado.
       </v-alert>
     </template>
+
   </v-data-table>
 </template>
 
 <style scoped>
 /* Estilo para garantir que a tabela ocupe o container sem margens */
+
+:deep(.v-btn){
+  color: gray;
+}
 .custom-table {
   background: white !important;
   width: 100% !important;

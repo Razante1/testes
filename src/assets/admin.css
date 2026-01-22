@@ -1,0 +1,142 @@
+/* =================================================
+   ADMIN PANEL – VUETIFY 3 (CLEAN / LIGHT)
+================================================= */
+
+.admin-layout {
+  background-color: #f8fafc;
+}
+
+/* ===============================
+   SIDEBAR
+================================ */
+.sidebar-toggle {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 2000;
+}
+
+
+.admin-layout .v-navigation-drawer {
+  background-color: #ffffff !important;
+  border-right: 1px solid #e2e8f0;
+}
+
+.admin-layout .v-list-item {
+  margin: 6px 12px;
+  border-radius: 10px;
+  color: #334155 !important;
+  font-weight: 500;
+}
+
+.admin-layout .v-list-item:hover {
+  background-color: #f1f5f9;
+}
+
+.admin-layout .v-list-item--active {
+  background-color: #e0e7ff !important;
+  color: #1e3a8a !important;
+}
+
+/* ===============================
+   MAIN CONTENT
+================================ */
+
+/* Ajuste na Main para ocupar a tela toda sem scroll na página */
+.admin-main {
+  padding: 0px !important; /* Remove o padding que afasta a tabela das bordas */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Impede que a página inteira role */
+}
+
+/* O container que segura a tabela */
+.admin-container {
+  background-color: #ffffff;
+  border-radius: 0; /* Remove arredondamento para colar nas bordas se desejar */
+  padding: 0;      /* Remove padding interno */
+  border: none;
+  flex: 1;         /* Faz o container ocupar todo o resto da tela */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Força o Header da Tabela a ficar fixo e o corpo a rolar */
+
+/* ===============================
+   TABLE
+================================ */
+
+.admin-layout .v-table {
+  background-color: #ffffff !important;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+}
+
+.admin-layout .v-table thead th {
+  color: #64748b !important;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.admin-layout .v-table tbody td {
+  color: #334155 !important;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-layout .v-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* ===============================
+   BUTTONS
+================================ */
+
+.admin-layout .v-btn {
+  border-radius: 10px;
+  text-transform: none;
+  font-weight: 500;
+}
+
+.admin-layout .v-btn.primary {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+}
+
+.admin-layout .v-btn.danger {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+}
+
+/* ===============================
+   MODALS (PADRONIZADOS)
+================================ */
+
+.admin-layout .v-dialog .v-card {
+  background-color: #ffffff !important;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+}
+
+.admin-layout .v-card-title {
+  color: #0f172a !important;
+  font-weight: 600;
+}
+
+.admin-layout .v-card-text {
+  color: #334155 !important;
+}
+
+/* ===============================
+   INPUTS
+================================ */
+
+.admin-layout .v-field {
+  background-color: #ffffff !important;
+}
+
+.admin-layout input {
+  color: #0f172a !important;
+}

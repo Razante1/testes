@@ -71,7 +71,7 @@ function submit() {
         Novo {{ section === 'members' ? 'Membro' : section === 'projects' ? 'Projeto' : 'Evento' }}
       </v-card-title>
 
-      <v-card-text class="pt-6">
+      <v-card-text class="flex-grow-1 overflow-y-auto pt-6">
         <v-row>
           <v-col v-for="field in fields" :key="field.key" cols="12">
             

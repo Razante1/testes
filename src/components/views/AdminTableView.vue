@@ -4,13 +4,13 @@ import { useRoute } from 'vue-router'
 import { useTable } from '@/composables/useTable'
 
 // Mapeamento de Services e Models
-import { MemberService } from '../service/memberService'
-import { ProjectService } from '../service/projectService' 
-import { EventService } from '../service/eventService'     
+import { MemberService } from '../../service/memberService'
+import { ProjectService } from '../../service/projectService' 
+import { EventService } from '../../service/eventService'     
 
-import { MemberDTO, MemberFull } from '../models/Member'
-import { EventDTO,EventFull } from '../models/Events'
-import { ProjectDTO,ProjectFull } from '../models/Project'
+import { MemberDTO, MemberFull } from '../../models/Member'
+import { EventDTO,EventFull } from '../../models/Events'
+import { ProjectDTO,ProjectFull } from '../../models/Project'
 // Componentes
 import DataTable from '@/components/table/DataTable.vue'
 import CreateModal from '@/components/modals/CreateModal.vue'
@@ -115,15 +115,15 @@ async function handleConfirmDelete() {
       </v-col>
       
       <v-col cols="12" md="4">
-        <v-card @click="$router.push('/admin/members')" hover class="pa-6 border-t-4 border-primary rounded-xl" elevation="2">
+        <v-card @click="$router.push('/admin/members')" hover class="pa-6 border-t-4 border-primary rounded-xl " min-height="300" elevation="2">
           <v-icon size="40" color="primary" class="mb-4">mdi-account-group</v-icon>
           <div class="text-h6 font-weight-bold">Membros</div>
           <div class="text-body-2 text-grey">Gerencie a equipe e permissões.</div>
         </v-card>
       </v-col>
 
-      <v-col cols="12" md="4">
-        <v-card @click="$router.push('/admin/projects')" hover class="pa-6 border-t-4 border-success rounded-xl" elevation="2">
+      <v-col cols="20" md="4">
+        <v-card @click="$router.push('/admin/projects')" hover class="pa-6 border-t-4 border-success rounded-xl" min-height="300" elevation="1">
           <v-icon size="40" color="success" class="mb-4">mdi-rocket-launch</v-icon>
           <div class="text-h6 font-weight-bold">Projetos</div>
           <div class="text-body-2 text-grey">Acompanhe entregas e tecnologias.</div>
@@ -131,7 +131,7 @@ async function handleConfirmDelete() {
       </v-col>
 
       <v-col cols="12" md="4">
-        <v-card @click="$router.push('/admin/events')" hover class="pa-6 border-t-4 border-info rounded-xl" elevation="2">
+        <v-card @click="$router.push('/admin/events')" hover class="pa-6 border-t-4 border-info rounded-xl" min-height="300" elevation="2">
           <v-icon size="40" color="info" class="mb-4">mdi-calendar-check</v-icon>
           <div class="text-h6 font-weight-bold">Eventos</div>
           <div class="text-body-2 text-grey">Organize workshops e sprints.</div>
@@ -156,12 +156,12 @@ async function handleConfirmDelete() {
       <v-spacer></v-spacer>
 
       <v-btn
-        color="primary"
-        prepend-icon="mdi-plus"
-        elevation="0"
+        class="button-registro"
+        elevation="1"
+        rounded="lg"
         @click="showCreate = true"
       >
-        Novo {{ section }}
+        Novo
       </v-btn>
     </div>
 
@@ -186,7 +186,8 @@ async function handleConfirmDelete() {
 </template>
 <style scoped>
 .button-registro {
-  background-color: rgb(214, 214, 214);
+  background-color: #babbbd;
+  color: rgb(39, 39, 39);
 }
 .button-registro:hover {
   background-color: rgb(151, 151, 151);

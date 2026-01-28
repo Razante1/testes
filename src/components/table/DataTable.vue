@@ -56,7 +56,7 @@ const headers = computed(() => {
     </template>
 
     <template #no-data>
-      <v-alert type="info" variant="tonal" class="ma-4">
+      <v-alert type="info" variant="tonal" class="ma-4" color="gray">
         Nenhum registro encontrado.
       </v-alert>
     </template>

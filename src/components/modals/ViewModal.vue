@@ -36,7 +36,7 @@ function getSrc(img) {
 
       <v-divider></v-divider>
 
-      <v-card-text class="pa-6">
+      <v-card-text class="flex-grow-1 overflow-y-auto pt-6">
         <v-row>
           <v-col
             v-for="[key, value] in fields"

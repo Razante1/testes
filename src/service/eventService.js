@@ -1,13 +1,21 @@
 import { mockData } from '@/mockdata/Mockdata'
+import axios from 'axios'
+const BASE_URL = import.meta.env.BASE_URL
 
 export const EventService = {
   async getList() {
-    await new Promise(res => setTimeout(res, 300))
+    axios.get(`${BASE_URL}/Eventos/todas`)
+      .then(response => {
+        return response.data
+      }).catch(error => {
+        console.error(error);
+        
+      })
     return mockData.events
   },
 
   async getById(id) {
-
+    axios.get(`${BASE_URL}/Eventos/todas`)
     return mockData.events.find(e => e.id === id)
   },
 

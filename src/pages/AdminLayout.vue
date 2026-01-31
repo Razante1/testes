@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import Sidebar from '@/components/layout/Sidebar.vue'
+import Sidebar from '@/views/admin/components/Sidebar.vue'
 
 const drawer = ref(true)
 </script>

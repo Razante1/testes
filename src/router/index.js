@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import AdminLayout from '@/components/layout/AdminLayout.vue'
-import AdminTableView from '@/components/views/AdminTableView.vue'
+import AdminLayout from '@/pages/AdminLayout.vue'
+import AdminTableView from '@/views/admin/AdminTableView.vue'
 
 const routes = [
   { path: "/", redirect: "/admin" },

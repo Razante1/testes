@@ -3,7 +3,6 @@ import { mockData } from '@/mockdata/Mockdata'
 export const ProjectService = {
   async getList() {
     await new Promise(res => setTimeout(res, 300))
-    // O DTO de projetos geralmente retorna nome, cliente e status
     return mockData.projects 
   },
 

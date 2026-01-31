@@ -1,34 +1,21 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
-export function useTable() {
+export function useTable(config) {
   const items = ref([])
-  const error = ref(null)
   const loading = ref(false)
+  const error = ref(null)
   const selected = ref(null)
 
-async function getAll(service, mappers) {
-  loading.value = true
-  items.value = [] // 🔹 Limpeza obrigatória para forçar o refresh visual
-  try {
-    const data = await service.getList()
-    items.value = mappers?.ListDTO 
-      ? data.map(item => new mappers.ListDTO(item)) 
-      : data
-  } catch (err) {
-    error.value = err
-  } finally {
-    loading.value = false
-  }
-}
-
-  // 🔹 BUSCAR POR ID (FULL MODEL)
-  async function getById(id, service, mappers) {
+  // 🔹 A mágica: funções internas que já sabem quem usar baseadas na config atual
+  async function getAll() {
+    // Se não houver config ou service, sai silenciosamente sem quebrar
+    if (!config.value?.service) return 
+    
     loading.value = true
     try {
-      const data = await service.getById(id)
-      selected.value = mappers?.FullModel 
-        ? new mappers.FullModel(data) 
-        : data
+      const data = await config.value.service.getList()
+      const { ListDTO } = config.value.mappers
+      items.value = ListDTO ? data.map(i => new ListDTO(i)) : data
     } catch (err) {
       error.value = err
     } finally {
@@ -36,41 +23,12 @@ async function getAll(service, mappers) {
     }
   }
 
-  // 🔹 CRIAR
-  async function create(payload, service, mappers) {
+  async function getById(id) {
     loading.value = true
     try {
-      await service.create(payload)
-      // Após criar, atualiza a lista automaticamente usando o service e mappers atuais
-      await getAll(service, mappers)
-    } catch (err) {
-      error.value = err
-      throw err 
-    } finally {
-      loading.value = false
-    }
-  }
-
-  // 🔹 ATUALIZAR
-  async function update(id, payload, service, mappers) {
-    loading.value = true
-    try {
-      await service.update(id, payload)
-      await getAll(service, mappers)
-    } catch (err) {
-      error.value = err
-      throw err
-    } finally {
-      loading.value = false
-    }
-  }
-
-  // 🔹 REMOVER
-  async function remove(id, service, mappers) {
-    loading.value = true
-    try {
-      await service.remove(id)
-      await getAll(service, mappers)
+      const data = await config.value.service.getById(id)
+      const { FullModel } = config.value.mappers
+      selected.value = FullModel ? new FullModel(data) : data
     } catch (err) {
       error.value = err
     } finally {
@@ -78,25 +36,48 @@ async function getAll(service, mappers) {
     }
   }
 
-  function select(item) {
-    selected.value = item
+  async function create(payload) {
+    loading.value = true
+    try {
+      await config.value.service.create(payload)
+      await getAll() // Auto-refresh!
+    } finally {
+      loading.value = false
+    }
   }
 
-  function clearSelected() {
-    selected.value = null
+  async function update(id, payload) {
+    loading.value = true
+    try {
+      await config.value.service.update(id, payload)
+      await getAll()
+    } finally {
+      loading.value = false
+    }
   }
+
+  async function remove(id) {
+    loading.value = true
+    try {
+      await config.value.service.remove(id)
+      await getAll()
+    } finally {
+      loading.value = false
+    }
+  }
+
+
+  watch(config, (newConfig) => {
+    if (newConfig?.service) {
+      selected.value = null
+      getAll()
+    } else {
+      items.value = [] 
+    }
+  }, { immediate: true })
 
   return {
-    items,
-    loading,
-    error,
-    selected,
-    getAll,
-    getById,
-    create,
-    update,
-    remove,
-    select,
-    clearSelected
+    items, loading, error, selected,
+    getAll, getById, create, update, remove
   }
 }

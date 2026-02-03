@@ -8,20 +8,27 @@ import { useRoute } from 'vuetify/lib/composables/router.mjs'
 import { computed, ref } from 'vue'
 
 
+// 1. Defina a prop primeiro
 const props = defineProps({
-  section: {
-    type: String,
-    default: ''
-  }
+  section: { type: String, default: null }
 })
 const route = useRoute()
-const section = computed(() => props.section || route.params.section || '')
-const currentConfig = computed(() => resources[section.value] || { service: null, mappers: {} })
-const search = ref('')
+const section = computed(() => {
+  return props.section || route.params?.section || null
+})
+
+const currentConfig = computed(() => {
+  const currentKey = section.value 
+
+  if (!currentKey || !resources || !resources[currentKey]) {
+    return { service: null, mappers: {} }
+  }
+  
+  return resources[currentKey]
+})
+
 
 const { items, loading, getById, create, update, remove, selected } = useTable(currentConfig)
-
-
 const { showCreate, showUpdate, showDelete, showView, onEdit, onView, onDelete, selectedItem } = useAdminActions(getById)
 
 import DataTable from '@/components/table/DataTable.vue'
@@ -29,12 +36,14 @@ import CreateModal from '@/components/modals/CreateModal.vue'
 import UpdateModal from '@/components/modals/UpdateModal.vue'
 import DeleteModal from '@/components/modals/DeleteModal.vue'
 import ViewModal from '@/components/modals/ViewModal.vue'
+import AdminDashboardCards from './components/AdminDashboardCards.vue'
 
 </script>
 
 
 <template>
   <v-container v-if="!section" fluid class="pa-8 bg-slate-50 fill-height align-start">
+    <AdminDashboardCards/>
  </v-container>
 
   <div v-else class="admin-main">
